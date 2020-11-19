@@ -22,7 +22,9 @@
                     <a class="nav-link" href="#" th:href="@{~/index}"><i class="fa fa-home"></i>Home</a>
                 </li>
                 <li sec:authorize="isAuthenticated()" class="nav-item">
-                    <a class="nav-link" href="#" th:href="@{~/pictures}">Pictures</a>
+                    <form class="form-inline" method="GET" action="/search">
+                        <a class="nav-link" href="#" th:href="@{~/images}" name="name">Pictures</a>
+                    </form>
                 </li>
                 <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
                     <a class="nav-link" href="#" th:href="@{~/admin/index}">Admin</a>
