@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -32,19 +33,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                // remove csrf and state in session because in jwt we do not need them
-                .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                // add jwt filters (1. authentication, 2. authorization)
-                .addFilter(new JwtAuthenticationFilter(authenticationManager()))
-                .addFilter(new JwtAuthorizationFilter(authenticationManager(), userRepository))
                 .authorizeRequests()
-                // configure access rules
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .antMatchers("/api/public/management/*").hasRole("MANAGER")
-                .antMatchers("/api/public/admin/*").hasRole("ADMIN")
-                .anyRequest().authenticated();
+                //.antMatchers("/index.html").permitAll()
+                //.antMatchers("/profile/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
+                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
+                //.antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1")
+                //.antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
+                .antMatchers("/users").hasRole("ADMIN")
+                .and()
+                .formLogin()
+                .loginProcessingUrl("/signin")
+                .loginPage("/login").permitAll()
+                .usernameParameter("txtUsername")
+                .passwordParameter("txtPassword")
+                .and()
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+                .and()
+                .rememberMe().tokenValiditySeconds(2592000).key("mySecret!").rememberMeParameter("checkRememberMe");
     }
 
     @Bean

@@ -2,6 +2,7 @@ package hu.vir.security;
 
 import com.auth0.jwt.JWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import hu.vir.model.Login;
 import hu.vir.model.User;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,9 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
         // Grab credentials and map them to login viewmodel
-        User credentials = null;
+        Login credentials = null;
         try {
-            credentials = new ObjectMapper().readValue(request.getInputStream(), User.class);
+            credentials = new ObjectMapper().readValue(request.getInputStream(), Login.class);
         } catch (IOException e) {
             e.printStackTrace();
         }
