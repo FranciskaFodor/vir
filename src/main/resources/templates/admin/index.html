@@ -1,11 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments.html :: headerfiles"></head>
+<head th:insert="fragments.html :: headerfiles">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+</head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
-<!-- Page content goes here -->
 <div class="container">
-    <p>This is Admin\Index. Only people with role_admin can see this.</p>
+    <div class="row">
+        <div class="col-md-12">
+            <h1> Users </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="float-right">
+                <input type="submit" id="submitButton" class="btn btn-success" th:value="Save">
+            </div>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th> Username </th>
+                    <th> Permissions </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${users.isEmpty()}">
+                    <td colspan="2"> No Users Available </td>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td><span th:text="${user.getUsername()}"></span></td>
+                    <td><input th:value="${user.getPermissions()}"/></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
+
 </body>
 </html>

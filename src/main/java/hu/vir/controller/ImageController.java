@@ -33,7 +33,7 @@ public class ImageController {
         try {
             user = userRepository.findByUsername(principal.getName());
         } catch (Exception e) {
-            return "redirect:/find";
+            return "redirect:/index";
         }
 
         List<String> userImages = new ArrayList();
