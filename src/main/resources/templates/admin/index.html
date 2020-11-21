@@ -1,41 +1,106 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments.html :: headerfiles">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+    <link crossorigin="anonymous"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+          rel="stylesheet">
+
+    <title>Admin</title>
 </head>
 <body>
 <header th:insert="fragments.html :: nav"></header>
 <div class="container">
-    <div class="row">
-        <div class="col-md-12">
+
+    <div class="row justify-content-center">
+        <div class="col-md-6">
             <h1> Users </h1>
         </div>
     </div>
-    <div class="row">
+
+    <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="float-right">
-                <input type="submit" id="submitButton" class="btn btn-success" th:value="Save">
-            </div>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th> Username </th>
-                    <th> Permissions </th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${users.isEmpty()}">
-                    <td colspan="2"> No Users Available </td>
-                </tr>
-                <tr th:each="user : ${users}">
-                    <td><span th:text="${user.getUsername()}"></span></td>
-                    <td><input th:value="${user.getPermissions()}"/></td>
-                </tr>
-                </tbody>
-            </table>
+
+                    <table class="table table-hover">
+                        <thead>
+                        <tr>
+                            <th> ID </th>
+                            <th> Username </th>
+                            <th> Permissions </th>
+                            <th> Operations </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${users.isEmpty()}">
+                            <td colspan="2"> No Users Available </td>
+                        </tr>
+                        <tr th:each="user : ${users}">
+                            <td><span th:text="${user.id}"></span></td>
+                            <td><span th:text="${user.username}"></span></td>
+                            <td><span th:text="${user.permissions}"/></td>
+                            <td><a class="btn btn-primary eBtn" th:href="@{/admin/findOne/(id=${user.getId()})}">Edit</a></td>
+                        </tr>
+                        </tbody>
+                    </table>
         </div>
     </div>
+
+    <div class="myForm">
+        <form action="#" method="post" th:action="@{/admin/saveUser}">
+            <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade"
+                 id="exampleModal" role="dialog"
+                 tabindex="-1">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Update or
+                                Create</h5>
+                            <button aria-label="Close" class="close" data-dismiss="modal"
+                                    type="button">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="col-form-label" for="id">ID:</label>
+                                <input class="form-control" id="id" name="id" type="text" value="" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="username">Username:</label>
+                                <input class="form-control" id="username" name="username" type="text" value="" readonly/>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-form-label" for="permissions">Permissions:</label>
+                                <input class="form-control" id="permissions" name="permissions" type="text" value=""/>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" data-dismiss="modal"
+                                    type="button">Close
+                            </button>
+                            <input class="btn btn-primary" type="submit" value="Save"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
 </div>
 
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"
+        type="text/javascript"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" type="text/javascript"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="../static/js/main.js" th:src="@{/js/main.js}"
+        type="text/javascript"></script>
 </body>
 </html>

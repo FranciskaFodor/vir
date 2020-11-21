@@ -5,14 +5,12 @@ import hu.vir.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.Resource;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.swing.filechooser.FileNameExtensionFilter;
-import java.lang.reflect.Array;
-import java.nio.file.Files;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,22 +32,24 @@ public class DbInit implements CommandLineRunner {
 
         this.userRepository.deleteAll();
 
-        Resource[] resources  = resourcePatternResolver.getResources("classpath:static/images/*");
+
 
         User user1 = new User("user1",passwordEncoder.encode("jelszo"),"USER","JPG,GIF");
         User user2 = new User("user2",passwordEncoder.encode("jelszo"),"USER","JPG");
         User admin = new User("admin",passwordEncoder.encode("jelszo"),"ADMIN","JPG,PNG,GIF");
 
-       setImageListByUser(user1, resources);
-       setImageListByUser(user2, resources);
-       setImageListByUser(admin, resources);
+       setImageListByUser(user1);
+       setImageListByUser(user2);
+       setImageListByUser(admin);
 
         List<User> users = Arrays.asList(user1, user2, admin);
 
         userRepository.saveAll(users);
     }
 
-    private void setImageListByUser(User user, Resource[] resources) {
+    public void setImageListByUser(User user) throws IOException {
+        Resource[] resources  = resourcePatternResolver.getResources("classpath:static/images/*");
+        user.getImageList().clear();
         for(Resource resource : resources) {
             String fileName = resource.getFilename();
             String fileExtension = fileName.substring(fileName.lastIndexOf(".") + 1).toUpperCase();
