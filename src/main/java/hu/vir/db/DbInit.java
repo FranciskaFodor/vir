@@ -32,10 +32,8 @@ public class DbInit implements CommandLineRunner {
 
         this.userRepository.deleteAll();
 
-
-
-        User user1 = new User("user1",passwordEncoder.encode("jelszo"),"USER","JPG,GIF");
-        User user2 = new User("user2",passwordEncoder.encode("jelszo"),"USER","JPG");
+        User user1 = new User("user1",passwordEncoder.encode("jelszo1"),"USER","JPG,GIF");
+        User user2 = new User("user2",passwordEncoder.encode("jelszo2"),"USER","JPG");
         User admin = new User("admin",passwordEncoder.encode("jelszo"),"ADMIN","JPG,PNG,GIF");
 
        setImageListByUser(user1);

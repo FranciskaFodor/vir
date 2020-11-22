@@ -18,6 +18,15 @@
 </head>
 <body>
     <header th:insert="fragments.html :: nav"></header>
+<div class="row justify-content-center">
+    <div class="alert alert-warning" style="width: 50%;" role="alert" th:if="${files.isEmpty()}">
+        <p class="text-center">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> No files available.
+        </p>
+    </div>
+</div>
+
+
     <div th:each="file : ${files}">
         <div class="gallery">
             <a target="_blank" th:href="${file}"> <img height="300" th:src="${file}" />

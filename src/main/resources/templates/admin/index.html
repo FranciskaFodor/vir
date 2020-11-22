@@ -30,6 +30,7 @@
                         <tr>
                             <th> ID </th>
                             <th> Username </th>
+                            <th> Roles </th>
                             <th> Permissions </th>
                             <th> Operations </th>
                         </tr>
@@ -41,6 +42,7 @@
                         <tr th:each="user : ${users}">
                             <td><span th:text="${user.id}"></span></td>
                             <td><span th:text="${user.username}"></span></td>
+                            <td><span th:text="${user.roles}"></span></td>
                             <td><span th:text="${user.permissions}"/></td>
                             <td><a class="btn btn-primary eBtn" th:href="@{/admin/findOne/(id=${user.getId()})}">Edit</a></td>
                         </tr>
@@ -57,8 +59,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Update or
-                                Create</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Edit</h5>
                             <button aria-label="Close" class="close" data-dismiss="modal"
                                     type="button">
                                 <span aria-hidden="true">&times;</span>

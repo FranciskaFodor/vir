@@ -34,24 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                //.antMatchers("/index.html").permitAll()
-                //.antMatchers("/profile/**").authenticated()
                 .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/user/**").hasAnyRole("ADMIN", "USER")
-                //.antMatchers("/api/public/test1").hasAuthority("ACCESS_TEST1")
-                //.antMatchers("/api/public/test2").hasAuthority("ACCESS_TEST2")
-                //.antMatchers("/users").hasRole("ADMIN")
-                .antMatchers("/images").permitAll()
+                .antMatchers("/images").hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin()
                 .loginProcessingUrl("/signin")
                 .loginPage("/login").permitAll()
-                .usernameParameter("txtUsername")
-                .passwordParameter("txtPassword")
+                .usernameParameter("usernameText")
+                .passwordParameter("passwordText")
                 .and()
-                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
-                .and()
-                .rememberMe().tokenValiditySeconds(2592000).key("mySecret!").rememberMeParameter("checkRememberMe");
+                .logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login");
     }
 
     @Bean

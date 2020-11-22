@@ -60,4 +60,10 @@ public class AdminController {
 
         return "redirect:/admin/index";
     }
+
+    @GetMapping("users")
+    @ResponseBody
+    public List<User> users() {
+        return userRepository.findAll();
+    }
 }
