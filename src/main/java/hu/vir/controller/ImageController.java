@@ -10,8 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 @Controller
 @RequestMapping("/")
@@ -33,9 +32,11 @@ public class ImageController {
             return "redirect:/index";
         }
 
-        List<String> userImages = new ArrayList();
+        HashMap<String, String> userImages = new HashMap<>();
         for (Image img : user.getImageList()) {
-            userImages.add(img.getName());
+            String imagePath = img.getName();
+            String imageName = imagePath.substring(imagePath.lastIndexOf("/") + 1);
+            userImages.put(imagePath, imageName);
         }
 
 

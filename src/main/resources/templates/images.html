@@ -29,8 +29,10 @@
 
     <div th:each="file : ${files}">
         <div class="gallery">
-            <a target="_blank" th:href="${file}"> <img height="300" th:src="${file}" />
-            </a>
+            <a target="_blank" th:href="${file.key}"> <img height="300" th:src="${file.key}" /></a>
+            <div>
+                <a th:text="${file.value}"> </a>
+            </div>
         </div>
     </div>
 
